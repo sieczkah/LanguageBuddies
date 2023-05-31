@@ -58,6 +58,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "languagebuddies.urls"
 
+
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",

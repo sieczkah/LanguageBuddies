@@ -35,11 +35,8 @@
               </figcaption>
             </figure>
           </div>
-
-          <a {% if user.is_authenticated %} href="{% url 'create-room'%}"
-            {% else %} href="{% url 'login'%}" {% endif %}
+          <a href="{% url 'create-room'%}"
             class="btn btn-warning text-end">Create a room</a>
-
         </div>
         <!-- CARDS -->
         {% for room in rooms %}

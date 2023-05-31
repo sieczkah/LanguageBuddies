@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.db.models import Q
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from .models import Room, Language, Message
 from .forms import RoomForm, RoomEditForm
@@ -16,9 +17,9 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
-            print(password)
             login(request, user)
-            return redirect('homepage')
+            redirect_link = request.GET.get('next', default='homepage')
+            return redirect(redirect_link)
         else:
             messages.error(request, 'Incorrect username or password.')
 
@@ -30,7 +31,7 @@ def logout_view(request):
     logout(request)
     return redirect('homepage')
 # Create your views here.
-def home(request, **kwargs):
+def home(request):
     q = request.GET.get('q', default='')
     if q.startswith('@'):
         q = q[1:]
@@ -52,7 +53,7 @@ def room(request, id):
     context = {'room': room}
     return render(request, "base/room.html", context)
 
-
+@login_required
 def create_room(request):
     form = RoomForm()
 
