@@ -1,12 +1,49 @@
 from django.shortcuts import render, redirect
-from .models import Room
+from django.contrib import messages
+from django.db.models import Q
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
+from .models import Room, Language, Message
 from .forms import RoomForm, RoomEditForm
 
 
+def login_view(request):
+
+    if request.method == 'POST':
+        username = request.POST["username"]
+        password = request.POST["password"]
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            print(password)
+            login(request, user)
+            return redirect('homepage')
+        else:
+            messages.error(request, 'Incorrect username or password.')
+
+    context={}
+    return render(request, 'base/login.html', context)
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('homepage')
 # Create your views here.
-def home(request):
-    rooms = Room.objects.all()
-    context = {'rooms': rooms}
+def home(request, **kwargs):
+    q = request.GET.get('q', default='')
+    if q.startswith('@'):
+        q = q[1:]
+        rooms = Room.objects.filter(host__username__icontains=q)
+    else:
+        rooms = Room.objects.filter(
+            Q(language__name__icontains=q) |
+            Q(name__icontains=q)
+            )
+
+    languages = Language.objects.all()
+
+    context = {'rooms': rooms, 'languages': languages}
     return render(request, "base/home.html", context)
 
 
