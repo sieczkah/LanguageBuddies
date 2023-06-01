@@ -1,45 +1,78 @@
 {% extends 'main.html' %}
+{% load static %}
 {% block content %}
-
-<main
-    class="form-signin w-100 m-auto mt-5 d-flex align-items-center justify-content-center">
-    <form method="POST" action="">
+{% if page == 'login' %}
+<!-- lOGIN FORM -->
+<div
+    class="d-flex flex-column col-10 col-md-8 col-xxl-3 pt-4 px-5 m-auto mt-5 rounded-3 glass">
+    <h3 class="text-center">Good to have you back</h3>
+    <h5 class="text-center mb-5">Sign in</h5>
+    <form id="form-login" method="POST" action="">
         {% csrf_token %}
-        <img class="mb-4" src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt=""
-            width="72" height="57">
-        <h1 class="h3 mb-5 fw-normal">Please sign in</h1>
-
-        <div class="form-floating my-3">
-            <input type="username" class="form-control" id="floatingInput"
-                placeholder="name@example.com" name="username">
-            <label for="floatingInput">Username</label>
-        </div>
-        <div class="form-floating">
-            <input type="password" class="form-control" id="floatingPassword"
-                placeholder="Password" name="password">
-            <label for="floatingPassword">Password</label>
+        <!-- Username input -->
+        <div class="form-outline mb-4">
+            <label class="form-label" for="username">Username</label>
+            <input autocomplete="username" type="username" id="username"
+                class="form-control" placeholder="Username" name="username" />
         </div>
 
-        <div class="form-check text-start my-3">
-            <input class="form-check-input" type="checkbox" value="remember-me"
-                id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">
-                Remember me
-            </label>
+        <!-- Password input -->
+        <div class="form-outline mb-4">
+            <label class="form-label" for="input-password">Password</label>
+            <input type="password" id="input-password" class="form-control"
+                placeholder="Password" name="password" />
         </div>
-        {% if messages %}
-        {% for message in messages %}
-        <div class="alert alert-danger" role="alert">
-            {{ message }}
+
+        <!-- 2 column grid layout for inline styling -->
+        <div class="row flex-row mb-4 px-5 text-center">
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-danger" role="alert">
+                {{ message }}
+            </div>
+            {% endfor %}
+            {% endif %}
+            <button class="btn btn-primary btn-block" type="submit"
+                id="login-btn" value="login">Sign
+                in</button>
+            <div class="col-12">
+                <!-- Forgot password link -->
+                <a href="#!">Forgot password?</a>
+            </div>
         </div>
-        {% endfor %}
-        {% endif %}
-        <button class="btn btn-primary w-100 py-2" type="submit"
-            id="login-btn">Sign
-            in</button>
+
+        <!-- Register button -->
+        <div class="text-center mt-5">
+            <p>Not a member? <a href="{% url 'register' %}">Register</a></p>
+
+        </div>
     </form>
-</main>
+</div>
 
+{% else %}
+<!-- SIGN UP FORM -->
+<div
+    class="d-flex flex-column col-10 col-md-8 col-xxl-3 pt-5 px-5 m-auto mt-5 rounded-3 glass">
+    <!-- FORM -->
+    <form id="form-signup" method="POST" action="">
+        {% csrf_token %}
+        <!-- FORM FIELDS -->
+        {{form.as_p}}
+        <!-- Register button -->
+        <div class="row flex-row mb-4 px-5 text-center">
+            <button class="btn btn-success btn-block" type="submit"
+                id="register-btn" value="register">Register an account</button>
+        </div>
+        <!-- Sign in link -->
+        <div class="text-center mt-5">
+            <p>Already have an account? <a href="{% url 'login' %}">Sign in</a>
+            </p>
+
+        </div>
+    </form>
+</div>
+
+{% endif %}
 
 
 

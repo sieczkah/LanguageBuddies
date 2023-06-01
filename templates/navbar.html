@@ -1,8 +1,9 @@
-<nav class="navbar bg-body-secondary">
+{% load static %}
+<nav class="navbar glass">
     <div class="container d-flex ">
-        <a class="navbar-brand" href="#">
-            <img src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Bootstrap"
-                width="30" height="24">
+        <a class="navbar-brand" href="{% url 'homepage' %}">
+            <img src="{% static 'img/logo1.svg' %}" alt="Language Buddies"
+                width="200" height="50">
         </a>
         <form class="d-flex" role="search" action="{% url 'homepage' %}"
             method="GET">

@@ -1,11 +1,30 @@
 {% extends 'main.html' %}
 {% block content %}
 
-<div>
-    <form action="" method="POST">
+<div
+    class="d-flex flex-column col-10 col-md-8 col-xxl-3 pt-5 px-5 m-auto mt-5 rounded-3 glass">
+    <form id="form-room" action="" method="POST">
         {% csrf_token %}
-        {{form.as_p}}
-        <input type="submit" value="submit">
+        <div class="form-outline mb-4">
+            <label class="form-label" for="name">Room name</label>
+            {{ form.name }}
+        </div>
+        <div class="form-outline mb-4">
+            <label class="form-label" for="name">Language</label>
+            {{ form.language }}
+        </div>
+        <div class="form-outline mb-4">
+            <label class="form-label" for="name">Description</label>
+            {{ form.description }}
+        </div>
+
+
+
+        <div class="row flex-row mb-4 px-5 text-center">
+            <button class="btn btn-primary btn-block" type="submit"
+                value="submit">Create room</button>
+        </div>
+
     </form>
 </div>
 

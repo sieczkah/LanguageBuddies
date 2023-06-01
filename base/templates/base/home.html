@@ -2,22 +2,22 @@
 <div class="container-xxl text-center">
   <div class="row justify-content-center g-5 p-2">
     <!-- LEFT NAVBAR -->
-    <div class="col-12 col-md-2 border border-info-subtle border-2 rounded">
-      <div class="d-flex flex-column">
+    <div class="col-12 col-md-2 py-2 rounded-3 glass-transparent">
+      <div class="d-flex flex-row flex-md-column flex-wrap">
         <h4>Languages</h4>
-        <div class="d-flex flex-wrap gap-1">
-          {% for language in languages %}
+        {% for language in languages %}
+        <div class="d-block my-md-1 mx-1 mx-md-0">
           <a href="{% url 'homepage' %}?q={{ language.name }}">
             <span
-              class="badge d-flex align-items-center p-1 pe-2 bg-primary rounded-pill">
+              class="badge align-items-center p-1 pe-2 bg-primary rounded-pill">
               <img class="rounded-circle me-1" width="15" height="15"
                 src="https://hatscripts.github.io/circle-flags/flags/pl.svg"
                 alt="">
               {{ language.name }}
               <span class="vr mx-2"> {{ language.count }} </span>
             </span></a>
-          {% endfor %}
         </div>
+        {% endfor %}
       </div>
     </div>
     <!-- MAIN BODY -->
@@ -38,77 +38,14 @@
           <a href="{% url 'create-room'%}"
             class="btn btn-warning text-end">Create a room</a>
         </div>
-        <!-- CARDS -->
-        {% for room in rooms %}
-        <div class="col-12 mb-5 ">
-          <div class="card room-card shadow-lg">
-            <div class="card-body pb-3">
-              <!-- CARD HEADER -->
-              <div class="d-flex flex-row justify-content-between mb-3">
-                <div class="text-start lh-2">
-
-                  <div class="d-flex flex-row gap-1">
-                    <h5 class="card-title mb-0">{{ room.name }} </h5>
-
-                  </div>
-                  <div class="d-flex align-items-center gap-2 mt-1">
-                    <span
-                      class="badge d-flex align-items-center p-1 pe-2 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-pill">
-                      <img class="rounded-circle me-1" width="20" height="15"
-                        src="https://hatscripts.github.io/circle-flags/flags/pl.svg"
-                        alt="">
-                      {{ room.language }}
-                    </span>
-                    <small
-                      class="fw-lighter">{{ room.updated |timesince }}</small>
-                  </div>
-                </div>
-                <div class="dropdown">
-                  <a class="link-primary" href="#" role="button"
-                    data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fa-solid fa-ellipsis-vertical fa-xl"></i>
-                  </a>
-                  <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Edit
-                        room</a></li>
-                    <li><a class="dropdown-item link-danger"
-                        href="{% url 'delete-room' room.id %}"
-                        onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
-                    </li>
-                  </ul>
-
-                </div>
-
-              </div>
-              <hr
-                style="height: 1px ;width: 35%; background-color: var(--bs-primary); border: none;">
-              <!-- CARD CONTENT -->
-              <div class="row">
-                <div class="col-12"></div>
-                <div class="col-12 mb-3 text-start">Lorem ipsum dolor sit amet
-                  consectetur
-                  adipisicing elit. Accusamus explicabo alias corrupti, facere
-                  esse animi adipisci iure molestias architecto, quibusdam ipsum
-                  sequi obcaecati doloremque eius nesciunt optio nostrum tempora
-                  quo!</div>
-                <div
-                  class="col-12 d-flex justify-content-between align-items-center">
-
-                  <a href="{% url 'room' room.id %}" class="btn btn-primary">Go
-                    to room</a>
-                  <small class="text-body-secondary">Hosted by
-                    @{{ room.host }}</small>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        {% endfor %}
-
+        <!-- ROOM CARDS -->
+        {% include 'base/components/rooms_list.html' %}
       </div>
     </div>
-    <!-- RIGHT FEED BAR -->
-    <div class="col-12 col-md-3 bg-secondary"></div>
+    <!-- RIGHT ACTIVITY FEED BAR -->
+    <div class="col-12 col-md-3 rounded-3 glass-transparent">
+      {% include 'base/components/activity_feed.html' %}
+    </div>
   </div>
 </div>
 

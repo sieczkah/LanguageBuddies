@@ -1,0 +1,9 @@
+{% for message in room_messages %}
+{% if message.user != request.user %}
+<div>
+  <a href="{% url 'profile' message.user.id %}">{{ message.user }}</a>
+  <small>{{ message.sent | timesince }}@
+    {{ message.room }}</small>
+</div>
+{% endif %}
+{% endfor %}

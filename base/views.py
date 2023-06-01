@@ -1,88 +1,159 @@
-from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.db.models import Q
-from django.contrib.auth.models import User
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
-from .models import Room, Language, Message
-from .forms import RoomForm, RoomEditForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+from django.db.models import Q
+from django.http import HttpResponse
+from django.shortcuts import redirect, render
+
+from .forms import RoomEditForm, RoomForm
+from .models import Language, Message, Room
 
 
 def login_view(request):
+    # Page name to handle the login/register template
+    page = "login"
 
-    if request.method == 'POST':
-        username = request.POST["username"]
+    # Avoiding log in users accesing /accounts/login/ page via url
+    if request.user.is_authenticated:
+        return redirect("homepage")
+
+    # Checking if request is POST, authenticating user and login in if authenticated
+    if request.method == "POST":
+        username = request.POST["username"].lower()
         password = request.POST["password"]
 
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
             login(request, user)
-            redirect_link = request.GET.get('next', default='homepage')
+            redirect_link = request.GET.get("next", default="homepage")
             return redirect(redirect_link)
         else:
-            messages.error(request, 'Incorrect username or password.')
+            # If failed to authenticate sends back error message
+            messages.error(request, "Incorrect username or password.")
 
-    context={}
-    return render(request, 'base/login.html', context)
+    context = {"page": page}
+    return render(request, "base/login.html", context)
 
 
 def logout_view(request):
     logout(request)
-    return redirect('homepage')
-# Create your views here.
+    return redirect("homepage")
+
+
+def regitser_view(request):
+    form = UserCreationForm()
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            new_user = form.save(commit=False)
+            new_user.username = new_user.username.lower()
+            new_user.save()
+            login(request, new_user)
+            return redirect("homepage")
+
+    context = {"form": form}
+    return render(request, "base/login.html", context)
+
+
 def home(request):
-    q = request.GET.get('q', default='')
-    if q.startswith('@'):
+    q = request.GET.get("q", default="")
+    room_messages = Message.objects.filter(Q(room__language__name__icontains=q))
+    if q.startswith("@"):
         q = q[1:]
         rooms = Room.objects.filter(host__username__icontains=q)
+
     else:
         rooms = Room.objects.filter(
-            Q(language__name__icontains=q) |
-            Q(name__icontains=q)
-            )
+            Q(language__name__icontains=q) | Q(name__icontains=q)
+        )
 
     languages = Language.objects.all()
 
-    context = {'rooms': rooms, 'languages': languages}
+    context = {"rooms": rooms, "languages": languages, "room_messages": room_messages}
     return render(request, "base/home.html", context)
 
 
 def room(request, id):
     room = Room.objects.get(id=id)
-    context = {'room': room}
+    messages = room.message_set.all().order_by("sent")
+    members = room.members.all()
+
+    # Sending a message
+    if request.method == "POST":
+        message = Message.objects.create(
+            user=request.user, room=room, body=request.POST.get("body")
+        )
+        # Automatically adding a member to the room if texted
+        room.members.add(request.user)
+
+        return redirect("room", id=room.id)
+
+    context = {"room": room, "messages": messages, "members": members}
     return render(request, "base/room.html", context)
+
+
+def profile_view(request, id):
+    user = User.objects.get(id=id)
+    # languages =
+    rooms = user.room_set.all()
+
+    context = {"user": user, "rooms": rooms}
+    return render(request, "base/profile.html", context)
+
 
 @login_required
 def create_room(request):
     form = RoomForm()
 
-    if request.method == 'POST':
+    if request.method == "POST":
         form = RoomForm(request.POST)
 
         if form.is_valid():
             form.save()
-            return redirect('homepage')
-        
-    context = {'form': form}
+            return redirect("homepage")
+
+    context = {"form": form}
     return render(request, "base/room_form.html", context)
 
 
+@login_required
 def update_room(request, id):
     room = Room.objects.get(id=id)
+    if request.user != room.host:
+        return HttpResponse("You don't own this room, or you are not logged in")
+
     form = RoomEditForm(instance=room)
 
-    if request.method == 'POST':
+    if request.method == "POST":
         form = RoomEditForm(request.POST, instance=room)
 
         if form.is_valid():
             form.save()
-            return redirect('homepage')
-        
-    context = {'form': form}
-    return render(request, 'base/room_form.html', context)
+            return redirect("homepage")
 
+    context = {"form": form}
+    return render(request, "base/room_form.html", context)
+
+
+@login_required
 def delete_room(request, id):
     room = Room.objects.get(id=id)
-    room.delete()
-    return redirect('homepage')
+    if request.user != room.host:
+        return HttpResponse("You don't own this room, or you are not logged in")
+    else:
+        room.delete()
+        return redirect("homepage")
+
+
+@login_required
+def delete_message(request, id):
+    msg = Message.objects.get(id=id)
+    room_id = msg.room.id
+    if request.user != msg.user:
+        return HttpResponse("Nice try.")
+    else:
+        msg.delete()
+        return redirect("room", id=room_id)

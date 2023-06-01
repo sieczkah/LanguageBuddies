@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,17 +15,16 @@
     crossorigin="anonymous">
   <link rel="stylesheet"
     href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@6.6.6/css/flag-icons.min.css" />
+  <link rel="stylesheet" href="{% static 'main.css' %}">
 </head>
 
-<body>
+<body class="min-vh-100">
+
   <script src="https://kit.fontawesome.com/b9b4781349.js"
     crossorigin="anonymous"></script>
   <section class="navigation">{% include 'navbar.html' %}</section>
   <!-- Page content -->
-  <section>
-    <!-- NAVBAR -->
-  </section>
-  <section class="page-content d-flex h-100">
+  <section class="page-content d-flex">
     {% block content %}
 
     {% endblock content %}
