@@ -1,36 +1,52 @@
-{% extends 'main.html' %} {% block content %}
+{% extends 'main.html' %} {% block content %} {% load static %}
 <div class="container-xxl text-center">
   <div class="row justify-content-center g-5 p-2">
-    <!-- LEFT NAVBAR -->
-    <div class="col-12 col-md-2 py-2 rounded-3 glass-transparent">
-      <div class="d-flex flex-row flex-md-column flex-wrap">
+    <!-- LEFT LANGUAGE LIST -->
+    <div class="col-12 col-lg-2 py-lg-2 rounded-3 glass-transparent">
+      <div class="d-flex flex-column flex-wrap">
         <h4>Languages</h4>
-        {% for language in languages %}
-        <div class="d-block my-md-1 mx-1 mx-md-0">
-          <a href="{% url 'homepage' %}?q={{ language.name }}">
+        <!-- BADGE FOR ALL LANGS -->
+        <div class="d-flex my-md-1 mx-1 mx-l-0">
+          <a href="{% url 'homepage' %}">
             <span
-              class="badge align-items-center p-1 pe-2 bg-primary rounded-pill">
+              class="badge d-flex align-items-center p-1 pe-2 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-pill">
               <img class="rounded-circle me-1" width="15" height="15"
-                src="https://hatscripts.github.io/circle-flags/flags/pl.svg"
-                alt="">
-              {{ language.name }}
-              <span class="vr mx-2"> {{ language.count }} </span>
-            </span></a>
+                src="{% static 'img/earth-icon.svg' %}" alt="">
+              All languages
+            </span>
+          </a>
+          <span
+            class="badge d-flex align-items-center mx-2 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-pill">
+            {{ total_room_count }}
+          </span>
+        </div>
+        <!-- BADGE FOR EACH LANG -->
+        {% for language in languages %}
+        <div class="d-flex my-md-1 mx-1 mx-l-0">
+          {% include './components/language_badge.html' with language=language %}
+          <span
+            class="badge d-flex align-items-center mx-2 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-pill">
+            {{ language.room_set.all.count }}
+          </span>
         </div>
         {% endfor %}
       </div>
     </div>
+
     <!-- MAIN BODY -->
-    <div class="col-12 col-md-7">
+    <div class="col-12 col-md-8 col-lg-7">
       <div class="row">
+
+        <!-- CREATE AND INFOR ABOUT ALL ROOMS -->
         <div
           class="col-12 mb-5 d-flex justify-content-between align-items-center">
           <div class="text-start">
             <figure>
-              <blockquote class="blockquote">
-                <p>Learn the language with others!</p>
+              <blockquote class="blockquote text-white">
+                <p>Learn the language with
+                  others!</p>
               </blockquote>
-              <figcaption class="blockquote-footer">
+              <figcaption class="blockquote-footer text-white">
                 {{ rooms.count }} chatting rooms available
               </figcaption>
             </figure>
@@ -38,12 +54,14 @@
           <a href="{% url 'create-room'%}"
             class="btn btn-warning text-end">Create a room</a>
         </div>
-        <!-- ROOM CARDS -->
+
+        <!-- ROOM LIST -->
         {% include 'base/components/rooms_list.html' %}
       </div>
     </div>
+
     <!-- RIGHT ACTIVITY FEED BAR -->
-    <div class="col-12 col-md-3 rounded-3 glass-transparent">
+    <div class="col-12 col-md-4 col-lg-3 rounded-3 glass-transparent">
       {% include 'base/components/activity_feed.html' %}
     </div>
   </div>

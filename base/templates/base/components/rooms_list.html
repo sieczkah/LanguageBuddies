@@ -1,5 +1,8 @@
+{% if rooms.count == 0%}
+<h3 class="text-white">There is no rooms</h3>
+{% else %}
 {% for room in rooms %}
-<div class="col-12 mb-5">
+<div class="col-12 mb-3">
   <div class="card room-card shadow-lg glass">
     <div class="card-body pb-3">
       <!-- CARD HEADER -->
@@ -11,14 +14,9 @@
 
           </div>
           <div class="d-flex align-items-center gap-2 mt-1">
-            <span
-              class="badge d-flex align-items-center p-1 pe-2 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-pill">
-              <img class="rounded-circle me-1" width="20" height="15"
-                src="https://hatscripts.github.io/circle-flags/flags/pl.svg"
-                alt="">
-              {{ room.language }}
-            </span>
+            {% include '../components/language_badge.html' with language=room.language %}
             <small class="fw-lighter">{{ room.updated | timesince }}</small>
+
           </div>
         </div>
         <!-- EDIT MENU -->
@@ -45,17 +43,22 @@
         style="height: 1px ;width: 35%; background-color: var(--bs-primary); border: none;">
       <!-- CARD CONTENT -->
       <div class="row">
-        <div class="col-12"></div>
         <div class="col-12 mb-3 text-start">{{ room.description }}</div>
         <div class="col-12 d-flex justify-content-between align-items-center">
-
-          <a href="{% url 'room' room.id %}" class="btn btn-primary">Go
-            to room</a>
-          <small class="text-body-secondary">Hosted by
-            @{{ room.host }}</small>
+          <div class="d-flex flex-column">
+            <a href="{% url 'room' room.id %}" class="btn btn-primary">Go
+              to room</a><small class="fw-lighter my-1"><i
+                class="fa-solid fa-users fa-lg mx-1"></i>{{ room.members.count }}
+              buddies in this
+              room</small>
+          </div>
+          <a href="{% url 'profile' room.host.id %}"><small
+              class="text-body-secondary">Hosted by
+              @{{ room.host }}</small></a>
         </div>
       </div>
     </div>
   </div>
 </div>
 {% endfor %}
+{% endif %}

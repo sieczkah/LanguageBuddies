@@ -35,6 +35,7 @@ class Message(models.Model):
 
 class Language(models.Model):
     name = models.CharField(max_length=250)
+    alpha_2 = models.CharField(max_length=2, default="PL")
 
     def __str__(self):
         return self.name

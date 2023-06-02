@@ -6,10 +6,16 @@
 }
 
 .glass-transparent {
-    background: rgba(255, 255, 255, 0.164);
+    background: rgba(255, 255, 255, 0.4);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(4.7px);
     -webkit-backdrop-filter: blur(4.7px);
+}
+
+.profile-info {
+    background: rgb(34, 193, 195);
+    background: linear-gradient(32deg, rgba(34, 193, 195, 1) 0%, rgba(253, 187, 45, 1) 100%);
+
 }
 
 body {

@@ -22,9 +22,10 @@
 
   <script src="https://kit.fontawesome.com/b9b4781349.js"
     crossorigin="anonymous"></script>
-  <section class="navigation">{% include 'navbar.html' %}</section>
+  <section class="navigation container mt-1">{% include 'navbar.html' %}
+  </section>
   <!-- Page content -->
-  <section class="page-content d-flex">
+  <section class="page-content container rounded-3" style="margin-top: 50px;">
     {% block content %}
 
     {% endblock content %}

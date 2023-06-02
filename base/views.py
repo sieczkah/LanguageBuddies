@@ -7,7 +7,7 @@ from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
-from .forms import RoomEditForm, RoomForm
+from .forms import RoomEditForm, RoomForm, UserForm
 from .models import Language, Message, Room
 
 
@@ -15,7 +15,7 @@ def login_view(request):
     # Page name to handle the login/register template
     page = "login"
 
-    # Avoiding log in users accesing /accounts/login/ page via url
+    # Avoiding log in users accessing /accounts/login/ page via url
     if request.user.is_authenticated:
         return redirect("homepage")
 
@@ -43,7 +43,7 @@ def logout_view(request):
     return redirect("homepage")
 
 
-def regitser_view(request):
+def register_view(request):
     form = UserCreationForm()
     if request.method == "POST":
         form = UserCreationForm(request.POST)
@@ -60,19 +60,30 @@ def regitser_view(request):
 
 def home(request):
     q = request.GET.get("q", default="")
-    room_messages = Message.objects.filter(Q(room__language__name__icontains=q))
+    total_room_count = Room.objects.all().count()
+
     if q.startswith("@"):
-        q = q[1:]
-        rooms = Room.objects.filter(host__username__icontains=q)
+        lookup_user = q[1:]
+        rooms = Room.objects.filter(host__username__icontains=lookup_user)
+        room_messages = Message.objects.filter(Q(user__username__icontains=lookup_user))
 
     else:
         rooms = Room.objects.filter(
             Q(language__name__icontains=q) | Q(name__icontains=q)
         )
+        room_messages = Message.objects.filter(
+            Q(room__language__name__icontains=q) | Q(room__name__icontains=q)
+        )
 
     languages = Language.objects.all()
 
-    context = {"rooms": rooms, "languages": languages, "room_messages": room_messages}
+    context = {
+        "rooms": rooms,
+        "languages": languages,
+        "room_messages": room_messages,
+        "total_room_count": total_room_count,
+        "param": q,
+    }
     return render(request, "base/home.html", context)
 
 
@@ -97,11 +108,32 @@ def room(request, id):
 
 def profile_view(request, id):
     user = User.objects.get(id=id)
-    # languages =
+    fullname = user.get_full_name()
     rooms = user.room_set.all()
+    room_messages = user.message_set.all()
 
-    context = {"user": user, "rooms": rooms}
+    context = {
+        "user": user,
+        "rooms": rooms,
+        "room_messages": room_messages,
+        "fullname": fullname,
+    }
     return render(request, "base/profile.html", context)
+
+
+@login_required
+def edit_profile_view(request):
+    user = request.user
+    form = UserForm(instance=user)
+
+    if request.method == "POST":
+        form = UserForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect("profile", id=user.id)
+
+    context = {"form": form}
+    return render(request, "base/edit_profile.html", context)
 
 
 @login_required
@@ -112,7 +144,9 @@ def create_room(request):
         form = RoomForm(request.POST)
 
         if form.is_valid():
-            form.save()
+            room = form.save(commit=False)
+            room.host = request.user
+            room.save()
             return redirect("homepage")
 
     context = {"form": form}

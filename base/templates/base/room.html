@@ -2,14 +2,18 @@
 {% block content %}
 <div class="container py-3">
     <div class="row d-flex">
+        <!-- ROOM MEMBERS START -->
         <div class="d-flex flex-column col-2 m-auto mt-5 rounded-3 glass p-3 overflow-y-auto"
             style="max-height: 60vh;">
             <h5>Room members:</h5>
             {% for member in members %}
-            <p class="lh-1">@{{ member.username }}</p>
+            <a class="link-primary-subtle" href="{% url 'profile' member.id %}">
+                <small>@{{ member.username }}</small>
+            </a>
             {% endfor %}
         </div>
-        <!-- CHAT SECTION -->
+        <!-- ROOM MEMBERS END -->
+        <!-- CHAT SECTION START-->
         <div class="d-flex flex-column col-9 m-auto mt-5 rounded-3 glass p-3">
             <!-- CHAT WINDOW -->
             <div class="d-flex flex-column overflow-y-scroll"
@@ -62,7 +66,8 @@
                 {% endfor %}
             </div>
             <!-- SEND MESSEAGE BOX -->
-            <div class="d-flex m-1 rounded-3 glass p-3 message-form">
+            {% if request.user.is_authenticated %} <div
+                class="d-flex m-1 rounded-3 glass p-3 message-form">
                 <form method="POST" action="" class="flex-grow-1">
                     <div class="d-flex flex-row align-items-center">
                         {% csrf_token %}
@@ -77,11 +82,11 @@
                         </div>
                     </div>
                 </form>
-            </div>
+            </div> {% endif %}
         </div>
-        {% if request.user.is_authenticated %}
 
-        {% endif %}
+
+
     </div>
 </div>
 {% endblock content %}
