@@ -14,7 +14,7 @@
 
           </div>
           <div class="d-flex align-items-center gap-2 mt-1">
-            {% include '../components/language_badge.html' with language=room.language %}
+            {% include 'components/language_badge.html' with language=room.language %}
             <small class="fw-lighter">{{ room.updated | timesince }}</small>
 
           </div>
@@ -26,11 +26,9 @@
               class="fa-solid fa-ellipsis-vertical fa-xl"></i></a>
           <ul class="dropdown-menu">
             <!-- Dropdown menu links -->
-            <li><a class=" dropdown-item"
-                href="{% url 'update-room' room.id %}">Edit
+            <li><a class=" dropdown-item" href="{% url 'update-room' room.id %}">Edit
                 room</a></li>
-            <li><a class="dropdown-item link-danger"
-                href="{% url 'delete-room' room.id %}"
+            <li><a class="dropdown-item link-danger" href="{% url 'delete-room' room.id %}"
                 onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
             </li>
           </ul>
@@ -39,8 +37,7 @@
         {% endif %}
 
       </div>
-      <hr
-        style="height: 1px ;width: 35%; background-color: var(--bs-primary); border: none;">
+      <hr style="height: 1px ;width: 35%; background-color: var(--bs-primary); border: none;">
       <!-- CARD CONTENT -->
       <div class="row">
         <div class="col-12 mb-3 text-start">{{ room.description }}</div>
@@ -52,8 +49,7 @@
               buddies in this
               room</small>
           </div>
-          <a href="{% url 'profile' room.host.id %}"><small
-              class="text-body-secondary">Hosted by
+          <a href="{% url 'profile' room.host.id %}"><small class="text-body-secondary">Hosted by
               @{{ room.host }}</small></a>
         </div>
       </div>

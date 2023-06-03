@@ -1,0 +1,6 @@
+<span class="badge d-flex align-items-center p-1 pe-2 text-white bg-primary rounded-pill">
+  <img class="rounded-circle me-1" width="15" height="15"
+    src="https://hatscripts.github.io/circle-flags/flags/{{ language.alpha_2|lower }}.svg" alt="">
+  {{ language|default:"polish" }} {% if show_count %}-
+  {{language.room_set.all.count}}{% endif %}
+</span>

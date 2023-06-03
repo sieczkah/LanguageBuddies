@@ -9,8 +9,8 @@
 
         <div class="card-body text-center">
           <div class="mt-3 mb-1">
-            <img src="https://api.multiavatar.com/7056b4749a70aaf870.svg"
-              class="rounded-circle img-fluid" style="width: 100px" />
+            <img src="https://api.multiavatar.com/7056b4749a70aaf870.svg" class="rounded-circle img-fluid"
+              style="width: 100px" />
           </div>
           <h4 class="mb-2">{{ fullname }}</h4>
           <p class="text-muted">
@@ -19,8 +19,7 @@
           </p>
           {% if user == request.user %}
           <a class="link-success link-offset-2 link-underline-opacity-0 link-underline-opacity-100-hover"
-            href="{% url 'edit-profile' %}">Edit <i
-              class="fa-solid fa-pen-to-square fa-sm"></i> </a>
+            href="{% url 'edit-profile' %}">Edit <i class="fa-solid fa-pen-to-square fa-sm"></i> </a>
           {% endif %}
           <div class="my-4 pb-2">
             <small>jezyk</small>
@@ -48,13 +47,13 @@
 
     </div>
     <!-- MAIN BODY -->
-    <div class="col-12 col-md-8 col-lg-6">
+    <div class="col-12 col-md-8 col-lg-6 overflow-y-auto" style="max-height: 100vh;">
       <!-- ROOM CARDS -->
-      {% include 'base/components/rooms_list.html' %}
+      {% include 'components/rooms_list.html' %}
     </div>
     <!-- RIGHT ACTIVITY FEED BAR -->
-    <div class="col-12 col-md-4 col-lg-3 rounded-3 glass-transparent">
-      {% include 'base/components/activity_feed.html' %}
+    <div class="col-12 col-md-4 col-lg-3 rounded-3 overflow-y-auto" style="max-height: 80vh;">
+      {% include 'components/activity_feed.html' %}
     </div>
   </div>
 </div>
