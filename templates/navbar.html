@@ -22,9 +22,12 @@
       <!-- PROFILE PART STARTS -->
       {% if user.is_authenticated %}
       <div class="dropdown text-end">
-        <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
-          aria-expanded="false">
-          <img src="{% static 'img/user-profile-icon.svg' %}" alt="mdo" width="32" height="32" class="rounded-circle">
+        <a href="#" class="d-flex flex-row align-items-center link-body-emphasis text-decoration-none"
+          data-bs-toggle="dropdown" aria-expanded="false">
+          <div style="width: 40px; height: 40px;">{{ user.profile.avatar|safe }}</div><i
+            class="fa-solid fa-caret-down fa-sm ms-2"></i>
+
+
         </a>
         <ul class="dropdown-menu text-small" style="color: #fff;">
           <li><a class="dropdown-item" href="{% url 'profile' request.user.id %}">My profile</a></li>

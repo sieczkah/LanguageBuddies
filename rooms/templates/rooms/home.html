@@ -17,7 +17,9 @@
         <!-- BADGE FOR EACH LANG -->
         {% for language in languages %}
         <div class="d-flex my-md-1 mx-1 mx-l-0">
-          {% include 'components/language_badge.html' with language=language show_count=True %}
+          <a href="{% url 'home' %}?q={{ language }}" class="">
+            {% include 'components/language_badge.html' with language=language show_count=True %}
+          </a>
         </div>
         {% endfor %}
       </div>

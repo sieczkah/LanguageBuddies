@@ -12,12 +12,14 @@
 <div class="d-flex flex-column recent-card-wrapper border border-2 rounded-3 my-3">
 
   <!-- ACTIVITY CARD HEADER -->
-  <div class="col-12 d-flex flex-row glass p-1 gap-2 flex-wrap">
-    <img src="{% static 'img/user-profile-icon.svg' %}" class="rounded-circle" height="25" alt="Profilepic"
-      loading="lazy" />
-    <small><a href="{% url 'profile' message.user.id %}" class="link-priamry-subtle">
+  <div class="col-12 d-flex flex-row glass p-1 gap-2 flex-wrap justify-content-between">
+    <div class="d-flex flex-row align-items-center">
+      <div style="width: 25px; height: 25px;">{{ message.user.profile.avatar|safe }}<small></div>
+      <a href="{% url 'profile' message.user.id %}" class="text-decoration-none link-body-emphasis link-expand">
         @{{ message.user }}</a></small>
-    <small class="text-end">{{ message.sent | timesince }}</small>
+    </div>
+    <small class="text-end fw-lighter align-self-end">{{ message.sent | timesince }}</small>
+
   </div>
 
   <!-- ACTIVITY CARD BODY -->
