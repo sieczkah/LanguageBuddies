@@ -3,7 +3,7 @@
 {% block content %}
 <div class="col-12 col-lg-4 mx-auto">
   <!-- PROFILE UPDATE FORM START -->
-  <form id="form-room" action="" method="POST">
+  <form id="form-profile" action="" method="POST">
     {% csrf_token %}
     <div class="card" style="border-radius: 15px">
       <div class="card-body text-center">
@@ -15,17 +15,24 @@
         <!-- AVATAR END -->
         <!-- USER INFO START -->
         <!-- FIRST & LAST NAME -->
-        <div class="form-outline mx-3 my-5 d-flex flex-row gap-1">
-          {{ form.first_name }}
-          {{ form.last_name }}
+        <div class="mx-3 my-2 mt-5 d-flex flex-row gap-1">
+          <div class="form-floating">
+            {{ form.first_name }}
+            <label for="floatingFirstName">First name</label>
+          </div>
+          <div class="form-floating">
+            {{ form.last_name }}
+            <label for="floatingLastName">Last name</label>
+          </div>
         </div>
         <!-- USERNAME % personal link -->
         <p class="text-muted mb-4">
           @{{ user.username }} <span class="mx-2">|</span>
           <a href="#!">mdbootstrap.com</a>
         </p>
-        <p class="text-muted mb-4">
+        <p class="text-muted mb-4 form-floating">
           {{ form.email }}
+          <label for="floatingEmail">Email</label>
         </p>
         <div class="mb-4 pb-2">
           <small>jezyk</small>
@@ -35,13 +42,22 @@
         <!-- DESCRIPTION -->
         <p>lorem ipsum lorem ipsumlorem ipsumlorem ipsum</p>
         <!-- USER INFO END -->
-        <div class="d-flex justify-content-center gap-5 text-center mt-5 mb-2">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-danger col-12" role="alert">
+          {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+        <div class="d-flex justify-content-center gap-5 text-center mt-1 mb-2">
+
           <button class="btn btn-success btn-block" type="submit"
             id="profile-update-btn" value="save">Save changes</button>
+
+          <a class='btn btn-secondary btn-block'
+            href="{% url 'profile' user.id %}">Return</a>
+        </div>
   </form>
-  <a class='btn btn-secondary btn-block'
-    href="{% url 'profile' request.user.id %}">Return</a>
-</div>
 </div>
 <!-- PROFILE UPDATE FORM END -->
 </div>

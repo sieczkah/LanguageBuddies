@@ -4,18 +4,20 @@ from django.contrib.auth.models import User
 from .models import Room
 
 
-class UserForm(forms.ModelForm):
+class UserProfileForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = (
-            "first_name",
-            "last_name",
-            "email",
-        )
+        fields = ("first_name", "last_name", "email")
         widgets = {
-            "first_name": forms.TextInput(attrs={"class": "form-control"}),
-            "last_name": forms.TextInput(attrs={"class": "form-control"}),
-            "email": forms.TextInput(attrs={"class": "form-control"}),
+            "first_name": forms.TextInput(
+                attrs={"class": "form-control", "id": "floatingFirstName"}
+            ),
+            "last_name": forms.TextInput(
+                attrs={"class": "form-control", "id": "floatingLastName"}
+            ),
+            "email": forms.TextInput(
+                attrs={"class": "form-control", "id": "floatingEmail"}
+            ),
         }
 
 
@@ -35,3 +37,8 @@ class RoomEditForm(forms.ModelForm):
     class Meta:
         model = Room
         fields = ["name", "description"]
+
+        widgets = {
+            "name": forms.TextInput(attrs={"class": "form-control"}),
+            "description": forms.Textarea(attrs={"class": "form-control"}),
+        }

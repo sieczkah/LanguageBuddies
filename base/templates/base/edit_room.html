@@ -1,0 +1,43 @@
+{% extends 'main.html' %}
+{% block content %}
+<div class="col-12 col-md-7 mb-3 m-auto">
+  <form action="" method="POST">
+    {% csrf_token %}
+    <div class="card room-card shadow-lg glass">
+      <div class="card-body pb-3">
+        <!-- CARD HEADER -->
+        <div class="d-flex flex-row justify-content-between mb-3">
+          <div class="text-start lh-2">
+            <div class="d-flex flex-row gap-1 form-outline p-2">
+              <h5 class="card-title mb-0"> {{ form.name }} </h5>
+            </div>
+            <div class="d-flex align-items-center gap-2 mt-1">
+              {% include 'base/components/language_badge.html' with language=room.language %}
+              <small class="fw-lighter">{{ room.updated | timesince }}</small>
+            </div>
+          </div>
+
+        </div>
+        <hr
+          style="height: 1px ;width: 35%; background-color: var(--bs-primary); border: none;">
+        <!-- CARD CONTENT -->
+        <div class="row">
+          <div class="col-12 mb-3 text-start form-outline">
+            {{ form.description }}
+          </div>
+          <div class="col-12 d-flex justify-content-center align-items-center">
+
+            <div class="d-flex flex-row gap-2">
+              <button class="btn btn-success btn-block" type="submit"
+                id="room-update-btn" value="save">Save changes</button>
+              <a class='btn btn-secondary btn-block'
+                href="{% url 'homepage' %}">Return</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+{% endblock content %}

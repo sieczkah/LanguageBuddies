@@ -1,75 +1,56 @@
 {% extends 'main.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
 {% block content %}
 {% if page == 'login' %}
 <!-- lOGIN FORM -->
 <div
-    class="d-flex flex-column col-10 col-md-8 col-xxl-4 pt-4 px-5 m-auto mt-5 rounded-3 glass">
-    <h3 class="text-center">Good to have you back</h3>
-    <h5 class="text-center mb-5">Sign in</h5>
-    <form id="form-login" method="POST" action="">
-        {% csrf_token %}
-        <!-- Username input -->
-        <div class="form-outline mb-4">
-            <label class="form-label" for="username">Username</label>
-            <input autocomplete="username" type="username" id="username"
-                class="form-control" placeholder="Username" name="username" />
-        </div>
+  class="d-flex flex-column col-10 col-md-8 col-xxl-4 pt-4 px-5 m-auto mt-5 rounded-3 glass">
+  <h3 class="text-center">Good to have you back</h3>
+  <h5 class="text-center mb-5">Sign in</h5>
+  <form id="form-login" method="POST" action="">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <!-- 2 column grid layout for inline styling -->
+    <div class="row flex-row mb-4 px-5 text-center">
+      <button class="btn btn-primary btn-block" type="submit" id="login-btn"
+        value="login">Sign
+        in</button>
+      <div class="col-12">
+        <!-- Forgot password link -->
+        <a href="#!">Forgot password?</a>
+      </div>
+    </div>
 
-        <!-- Password input -->
-        <div class="form-outline mb-4">
-            <label class="form-label" for="input-password">Password</label>
-            <input type="password" id="input-password" class="form-control"
-                placeholder="Password" name="password" />
-        </div>
+    <!-- Register button -->
+    <div class="text-center mt-5">
+      <p>Not a member? <a href="{% url 'register' %}">Register</a></p>
 
-        <!-- 2 column grid layout for inline styling -->
-        <div class="row flex-row mb-4 px-5 text-center">
-            {% if messages %}
-            {% for message in messages %}
-            <div class="alert alert-danger" role="alert">
-                {{ message }}
-            </div>
-            {% endfor %}
-            {% endif %}
-            <button class="btn btn-primary btn-block" type="submit"
-                id="login-btn" value="login">Sign
-                in</button>
-            <div class="col-12">
-                <!-- Forgot password link -->
-                <a href="#!">Forgot password?</a>
-            </div>
-        </div>
-
-        <!-- Register button -->
-        <div class="text-center mt-5">
-            <p>Not a member? <a href="{% url 'register' %}">Register</a></p>
-
-        </div>
-    </form>
+    </div>
+  </form>
 </div>
 
 {% else %}
 <!-- SIGN UP FORM -->
 <div
-    class="d-flex flex-column col-10 col-md-8 col-xxl-5 pt-5 px-5 m-auto mt-5 rounded-3 glass">
-    <!-- FORM -->
-    <form id="form-signup" method="POST" action="">
-        {% csrf_token %}
-        <!-- FORM FIELDS -->
-        {{form.as_p}}
-        <!-- Register button -->
-        <div class="row flex-row mb-4 px-5 text-center">
-            <button class="btn btn-success btn-block" type="submit"
-                id="register-btn" value="register">Register an account</button>
-        </div>
-        <!-- Sign in link -->
-        <div class="text-center mt-5">
-            <p>Already have an account? <a href="{% url 'login' %}">Sign in</a>
-            </p>
+  class="d-flex flex-column col-10 col-md-8 col-xxl-5 pt-5 px-5 m-auto mt-5 rounded-3 glass">
+  <!-- FORM -->
+  <form id="form-signup" method="POST" action="">
+    {% csrf_token %}
+    <!-- FORM FIELDS -->
+    {{ form|crispy }}
+    <!-- Register button -->
+    <div class="row flex-row mb-4 px-5 text-center">
+      <button class="btn btn-success btn-block" type="submit" id="register-btn"
+        value="register">Register an account</button>
+    </div>
+    <!-- Sign in link -->
+    <div class="text-center mt-5">
+      <p>Already have an account? <a href="{% url 'login' %}">Sign in</a>
+      </p>
 
-        </div>
-    </form>
+    </div>
+  </form>
 </div>
 
 {% endif %}

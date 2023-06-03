@@ -1,33 +1,25 @@
 {% extends 'main.html' %} {% block content %} {% load static %}
 <div class="container-xxl text-center">
-  <div class="row justify-content-center g-5 p-2">
+  <div class="row g-5">
     <!-- LEFT LANGUAGE LIST -->
     <div class="col-12 col-lg-2 py-lg-2 rounded-3 glass-transparent">
-      <div class="d-flex flex-column flex-wrap">
-        <h4>Languages</h4>
+      <div class="d-flex flex-row flex-md-column flex-wrap gap-2 mb-3">
+        <h4 class="col-12">Languages</h4>
         <!-- BADGE FOR ALL LANGS -->
-        <div class="d-flex my-md-1 mx-1 mx-l-0">
+        <div class="d-flex flex-row my-md-1 mx-1 mx-l-0">
           <a href="{% url 'homepage' %}">
             <span
               class="badge d-flex align-items-center p-1 pe-2 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-pill">
               <img class="rounded-circle me-1" width="15" height="15"
                 src="{% static 'img/earth-icon.svg' %}" alt="">
-              All languages
+              All languages - {{ total_room_count }}
             </span>
           </a>
-          <span
-            class="badge d-flex align-items-center mx-2 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-pill">
-            {{ total_room_count }}
-          </span>
         </div>
         <!-- BADGE FOR EACH LANG -->
         {% for language in languages %}
         <div class="d-flex my-md-1 mx-1 mx-l-0">
-          {% include './components/language_badge.html' with language=language %}
-          <span
-            class="badge d-flex align-items-center mx-2 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-pill">
-            {{ language.room_set.all.count }}
-          </span>
+          {% include './components/language_badge.html' with language=language show_count=True %}
         </div>
         {% endfor %}
       </div>
