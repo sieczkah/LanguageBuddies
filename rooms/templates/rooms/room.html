@@ -1,92 +1,100 @@
 {% extends 'main.html' %}
 {% block content %}
 <div class="container py-3">
-    <div class="row d-flex">
-        <!-- ROOM MEMBERS START -->
-        <div class="d-flex flex-column col-2 m-auto mt-5 rounded-3 glass p-3 overflow-y-auto"
-            style="max-height: 60vh;">
-            <h5>Room members:</h5>
-            {% for member in members %}
-            <a class="link-primary-subtle" href="{% url 'profile' member.id %}">
-                <small>@{{ member.username }}</small>
-            </a>
-            {% endfor %}
-        </div>
-        <!-- ROOM MEMBERS END -->
-        <!-- CHAT SECTION START-->
-        <div class="d-flex flex-column col-9 m-auto mt-5 rounded-3 glass p-3">
-            <!-- CHAT WINDOW -->
-            <div class="d-flex flex-column overflow-y-scroll"
-                style="max-height: 60vh;">
-                {% for message in messages %}
-                {% if message.user == request.user %}
-                <!-- MSG FROM LOGGED AUTHOR USER -->
-                <div class=" col-9 align-self-end text-start bg-primary-subtle
-                rounded-2 px-3 py-1 m-1 text-break">
-                    <div
-                        class="d-flex flex-row col-12 justify-content-end align-items-center gap-3">
-                        <small>@{{ message.user }}</small>
-                        <small
-                            class="text-body-secondary">{{ message.sent | timesince}}
-                            ago</small>
-                        <!--  DELETE MESSAGE-->
-                        <div class="btn-group dropstart">
-                            <a href="" class="link-success"
-                                data-bs-toggle="dropdown"><i
-                                    class="fa-solid fa-ellipsis-vertical fa-l"></i></a>
-                            <ul class="dropdown-menu">
-                                <!-- Dropdown menu links -->
-                                <li><a class="dropdown-item link-danger"
-                                        href="{% url 'delete-message' message.id %}"
-                                        onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="my-1">
-                        {{ message.body }}
-                    </div>
-                </div>
-                {% else %}
-                <!-- MSG FROM OTHER USERS -->
-                <div
-                    class="col-9 align-self-start text-start bg-success-subtle rounded-2 px-3 m-1 text-break">
-                    <div
-                        class="d-flex flex-row col-12 justify-content-end align-items-center gap-3">
-                        <small>@{{ message.user }}</small>
-                        <small
-                            class="text-body-secondary">{{ message.sent | timesince}}
-                            ago</small>
-                    </div>
-                    <div class="my-1">
-                        {{ message.body }}
-                    </div>
-                </div>
-                {% endif %}
-                {% endfor %}
-            </div>
-            <!-- SEND MESSEAGE BOX -->
-            {% if request.user.is_authenticated %} <div
-                class="d-flex m-1 rounded-3 glass p-3 message-form">
-                <form method="POST" action="" class="flex-grow-1">
-                    <div class="d-flex flex-row align-items-center">
-                        {% csrf_token %}
-                        <div class="flex-grow-1">
-                            <textarea class="form-control" id="MesseageTextArea"
-                                rows="2" placeholder="Aa" name="body"
-                                type="text"></textarea>
-                        </div>
-                        <div>
-                            <button type="submit" class="btn link-primary"><i
-                                    class="fa-regular fa-paper-plane fa-xl"></i></button>
-                        </div>
-                    </div>
-                </form>
-            </div> {% endif %}
-        </div>
-
-
-
+  <div class="row d-flex">
+    <!-- ROOM MEMBERS START -->
+    <div class="d-flex flex-column col-2 m-auto mt-5 rounded-3 glass p-3 overflow-y-auto" style="max-height: 60vh;">
+      <h5>Room members:</h5>
+      {% for member in members %}
+      <a class="link-primary-subtle" href="{% url 'profile' member.id %}">
+        <small>@{{ member.username }}</small>
+      </a>
+      {% endfor %}
     </div>
+    <!-- ROOM MEMBERS END -->
+
+    <!-- CHAT SECTION START-->
+    <div class="d-flex flex-column col-9 m-auto mt-2 rounded-3 glass p-3">
+
+      <!-- CHAT WINDOW -->
+      <div class="d-flex flex-column overflow-y-scroll" style="max-height: 60vh; min-height: 50vh;">
+        {% for message in messages %}
+        {% if message.user == request.user %}
+
+        <!-- MSG FROM LOGGED AUTHOR USER -->
+        <div class="d-flex flex-column col-10 align-self-end px-3 py-1 m-1">
+          <div class="col-3 d-flex flex-row align-self-end justify-content-end gap-1">
+            <small class="align-self-end text-black">@{{ message.user }}</small>
+            <span style="width: 30px; height: 30px;">{{ message.user.profile.avatar|safe }}</span>
+            <a class="stretched-link" href="{% url 'profile' message.user.id %}"></a>
+          </div>
+          <!-- MSG BODY STARTS-->
+          <div class="own-msg text-start px-3 py-1 m-1 text-break text-white me-4
+                    rounded-4 rounded-end-1 rounded-bottom-4">
+            <div class="d-flex flex-row col-12 justify-content-end align-items-center gap-3">
+              <small class="text-lighter">{{ message.sent | timesince}}
+                ago</small>
+              <!--  DELETE MESSAGE-->
+              <div class="btn-group dropstart">
+                <a href="" class="link-light" data-bs-toggle="dropdown"><i
+                    class="fa-solid fa-ellipsis-vertical fa-l"></i></a>
+                <ul class="dropdown-menu">
+                  <!-- Dropdown menu links -->
+                  <li><a class="dropdown-item link-danger" href="{% url 'delete-message' message.id %}"
+                      onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="my-1">
+              {{ message.body }}
+            </div>
+          </div>
+          <!-- MSG BODY ENDS-->
+        </div>
+        {% else %}
+        <!-- MSG FROM OTHER USERS -->
+        <div class="d-flex flex-column col-10 align-self-start px-3 py-1 m-1">
+          <div class="col-3 d-flex flex-row align-self-start justify-content-start gap-1">
+            <span style="width: 30px; height: 30px;">{{ message.user.profile.avatar|safe }}</span>
+            <small class="align-self-start text-black">@{{ message.user }}</small>
+            <a class="stretched-link" href="{% url 'profile' message.user.id %}"></a>
+          </div>
+          <!-- MSG BODY STARTS-->
+          <div class="other-msg text-start px-3 py-1 m-1 text-break ms-4
+                    rounded-4 rounded-start-1 rounded-bottom-4">
+            <div class="d-flex flex-row col-12 justify-content-start align-items-center gap-3">
+              <small class="text-lighter">{{ message.sent | timesince}}
+                ago</small>
+            </div>
+            <div class="my-1">
+              {{ message.body }}
+            </div>
+          </div>
+          <!-- MSG BODY ENDS-->
+        </div>
+        {% endif %}
+        {% endfor %}
+      </div>
+      <!-- SEND MESSEAGE BOX -->
+      {% if request.user.is_authenticated %} <div class="d-flex m-1 rounded-3 glass p-3 message-form">
+        <form method="POST" action="" class="flex-grow-1">
+          <div class="d-flex flex-row align-items-center">
+            {% csrf_token %}
+            <div class="flex-grow-1">
+              <textarea class="form-control" id="MesseageTextArea" rows="2" placeholder="Aa" name="body"
+                type="text"></textarea>
+            </div>
+            <div>
+              <button type="submit" class="btn link-primary"><i class="fa-regular fa-paper-plane fa-xl"></i></button>
+            </div>
+          </div>
+        </form>
+      </div> {% endif %}
+    </div>
+
+
+
+  </div>
 </div>
 {% endblock content %}
