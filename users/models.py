@@ -5,7 +5,7 @@ from django.db import models
 
 from helpers import avatar_maker
 
-avatar_svg = avatar_maker.create_avatar("Default Avatar")
+avatar_svg = avatar_maker.create_avatar()
 
 
 # Create your models here.
