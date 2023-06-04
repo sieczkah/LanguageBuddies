@@ -1,0 +1,26 @@
+{% load static %}
+<div class="container">
+  <footer class="d-flex flex-wrap justify-content-evenly align-items-center py-3  border-top">
+    <div class="col-md-4 d-flex align-items-center">
+      <a href="{% url 'home' %}" class="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
+        <img src="{% static 'img/logo.png' %}" alt="Language Buddies" width="150" height="50">
+      </a>
+
+      <span class="mb-3 mb-md-0 text-white lh-1">© 2023 Hubert Sieczka <br>
+        <span style="font-size: 0.7rem;"> Avatars by <a class="link-light" href="https://multiavatar.com/"
+            target="_blank">Multiavatar</a></span>
+      </span>
+
+    </div>
+
+    <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+      <li class="ms-3 text-white ">Visit my websites</li>
+      <li class="ms-3"><a class="link-light text-decoration-none" href="https://sieczkah.github.io/quick-summary.html"
+          target="_blank"><i class="fa-solid fa-earth-europe fa-xl"></i></a></li>
+      <li class="ms-3"><a class="link-light" href="https://github.com/sieczkah" target="_blank"><i
+            class="fa-brands fa-github fa-xl"></i></a></li>
+      <li class="ms-3"><a class="link-light" href="https://www.linkedin.com/in/hubert-sieczka/" target="_blank"><i
+            class="fa-brands fa-linkedin fa-xl"></i></a></li>
+    </ul>
+  </footer>
+</div>

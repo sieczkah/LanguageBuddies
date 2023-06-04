@@ -2,27 +2,22 @@
 <!-- Navbar -->
 <header class="p-3 mb-3 border-bottom">
   <div class="container">
-    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-between">
       <!-- LOGO -->
       <a href="{% url 'home' %}" class="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
-        <img src="{% static 'img/logo1.svg' %}" alt="Language Buddies" width="200" height="50">
+        <img src="{% static 'img/logo.png' %}" alt="Language Buddies" width="150" height="50">
       </a>
 
-      <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-        <li><a href="#" class="nav-link px-2 link-warning">Overview</a></li>
-        <li><a href="#" class="nav-link px-2 link-warning">Inventory</a></li>
-        <li><a href="#" class="nav-link px-2 link-warning">Customers</a></li>
-        <li><a href="#" class="nav-link px-2 link-warning">Products</a></li>
-      </ul>
 
-      <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" action="{% url 'home' %}" method="GET">
-        <input name="q" type="search" class="form-control" placeholder="Search..." aria-label="Search">
+      <form class="col-12 col-lg-5 mb-3 mb-lg-0 me-lg-5" role="search" action="{% url 'home' %}" method="GET">
+        <input name="q" type="search" class="form-control" placeholder="Search for @user, room name or language..."
+          aria-label="Search">
       </form>
 
       <!-- PROFILE PART STARTS -->
       {% if user.is_authenticated %}
       <div class="dropdown text-end">
-        <a href="#" class="d-flex flex-row align-items-center link-body-emphasis text-decoration-none"
+        <a href="#" class="d-flex flex-row align-items-center link-body-emphasis text-decoration-none text-white"
           data-bs-toggle="dropdown" aria-expanded="false">
           <div style="width: 40px; height: 40px;">{{ user.profile.avatar|safe }}</div><i
             class="fa-solid fa-caret-down fa-sm ms-2"></i>
@@ -32,9 +27,7 @@
         <ul class="dropdown-menu text-small" style="color: #fff;">
           <li><a class="dropdown-item" href="{% url 'profile' request.user.id %}">My profile</a></li>
           <li><a class="dropdown-item" href="{% url 'edit-profile' %}">Edit profile</a></li>
-          <li><a class="dropdown-item" href="#">My rooms</a></li>
-          <li><a class="dropdown-item" href="#">New room</a></li>
-          <li><a class="dropdown-item" href="#">Profile</a></li>
+          <li><a class="dropdown-item" href="{% url 'create-room' %}">Create a room</a></li>
           <li>
             <hr class="dropdown-divider">
           </li>
@@ -44,7 +37,7 @@
       <!-- PROFILE PART ENDS -->
       {% else %}
       <a class="nav-link" href="{% url 'login' %}">
-        <button class="btn btn-primary">Log in</button>
+        <button class="btn btn-primary">Log in / Register</button>
       </a>
       {% endif %}
     </div>
