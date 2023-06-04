@@ -37,10 +37,13 @@
           {{ user_form.email }}
           <label for="floatingEmail">Email</label>
         </p>
-        <div class="mb-4 pb-2">
-          <small>jezyk</small>
-          <small>jezyk</small>
-          <small>jezyk</small>
+        <div class="my-4 pb-2 d-flex flex-row flex-wrap justify-content-center">
+          <div class="col-12">
+            <p>Chats in:</p>
+          </div>
+          {% for language in talking_langs %}
+          {% include 'components/language_badge.html' with language=language show_count=False %}
+          {% endfor %}
         </div>
         <!-- DESCRIPTION -->
         <p>

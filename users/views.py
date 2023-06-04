@@ -81,6 +81,7 @@ def edit_profile_view(request):
     user = request.user
     user_form = UserForm(instance=user)
     profile_form = ProfileForm(instance=user.profile)
+    talking_langs = Language.objects.filter(room__members=user).distinct()
 
     if request.method == "POST":
         user_form = UserForm(request.POST, instance=user)
@@ -93,5 +94,9 @@ def edit_profile_view(request):
         else:
             messages.error(request, "Something went wrong, check your inputs")
 
-    context = {"user_form": user_form, "profile_form": profile_form}
+    context = {
+        "user_form": user_form,
+        "profile_form": profile_form,
+        "talking_langs": talking_langs,
+    }
     return render(request, "users/edit_profile.html", context)
