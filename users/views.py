@@ -9,6 +9,7 @@ from django.views.decorators.debug import sensitive_variables
 from rooms.models import Language
 
 from .forms import ProfileForm, UserForm
+from .models import Profile
 
 
 # Create your views here.
@@ -47,6 +48,7 @@ def register_view(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             new_user = form.save()
+            new_profile = Profile.objects.create(user=new_user)
             login(request, new_user)
             return redirect("home")
     else:

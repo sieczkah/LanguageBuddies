@@ -68,6 +68,7 @@ def create_room(request):
             room = form.save(commit=False)
             room.host = request.user
             room.save()
+            room.members.add(request.user)
             return redirect("home")
 
     context = {"form": form}

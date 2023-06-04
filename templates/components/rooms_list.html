@@ -46,8 +46,12 @@
               buddies in this
               room</small>
           </div>
+          {% if room.host.id is not None %}
           <a href="{% url 'profile' room.host.id %}"><small class="text-body-secondary">Hosted by
               @{{ room.host }}</small></a>
+          {% else %}
+          <small class="text-body-secondary">No host</small></a>
+          {% endif %}
         </div>
       </div>
     </div>
