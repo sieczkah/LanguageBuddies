@@ -20,7 +20,7 @@
     <!-- CHAT SECTION START-->
     <div class="d-flex flex-column col-9 m-auto mt-2 rounded-3 glass p-3">
       <!-- CHAT WINDOW -->
-      <div class="d-flex flex-column overflow-y-scroll" style="max-height: 60vh; min-height: 50vh;">
+      <div class="d-flex flex-column-reverse overflow-y-scroll" style="max-height: 60vh; min-height: 50vh;">
         {% for message in messages %}
         {% if message.user == request.user %}
 

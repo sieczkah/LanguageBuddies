@@ -40,7 +40,7 @@ def home(request):
 
 def room(request, id):
     room = Room.objects.get(id=id)
-    messages = room.message_set.all().order_by("sent")
+    messages = room.message_set.all()
     members = room.members.all()
 
     # Sending a message
