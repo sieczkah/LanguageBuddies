@@ -6,7 +6,9 @@ from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
 from django.views.decorators.debug import sensitive_variables
 
-from .forms import UserProfileForm
+from rooms.models import Language
+
+from .forms import ProfileForm, UserForm
 
 
 # Create your views here.
@@ -59,12 +61,14 @@ def profile_view(request, id):
     fullname = user.get_full_name()
     rooms = user.room_set.all()
     room_messages = user.message_set.all()
+    talking_langs = Language.objects.filter(room__members=user).distinct()
 
     context = {
         "viewed_user": user,
         "rooms": rooms,
         "room_messages": room_messages,
         "fullname": fullname,
+        "talking_langs": talking_langs,
     }
 
     return render(request, "users/profile.html", context)
@@ -73,15 +77,19 @@ def profile_view(request, id):
 @login_required
 def edit_profile_view(request):
     user = request.user
-    form = UserProfileForm(instance=user)
+    user_form = UserForm(instance=user)
+    profile_form = ProfileForm(instance=user.profile)
 
     if request.method == "POST":
-        form = UserProfileForm(request.POST, instance=user)
-        if form.is_valid():
-            form.save()
+        user_form = UserForm(request.POST, instance=user)
+        profile_form = ProfileForm(request.POST, instance=user.profile)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
             return redirect("profile", id=user.id)
         else:
             messages.error(request, "Something went wrong, check your inputs")
 
-    context = {"form": form}
+    context = {"user_form": user_form, "profile_form": profile_form}
     return render(request, "users/edit_profile.html", context)

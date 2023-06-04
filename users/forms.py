@@ -1,8 +1,10 @@
 from django import forms
 from django.contrib.auth.models import User
 
+from .models import Profile
 
-class UserProfileForm(forms.ModelForm):
+
+class UserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ("first_name", "last_name", "email")
@@ -15,5 +17,28 @@ class UserProfileForm(forms.ModelForm):
             ),
             "email": forms.TextInput(
                 attrs={"class": "form-control", "id": "floatingEmail"}
+            ),
+        }
+
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ("bio_field", "personal_web", "avatar")
+        widgets = {
+            "bio_field": forms.TextInput(
+                attrs={
+                    "class": "form-control form-control-sm",
+                    "id": "floatingBioField",
+                }
+            ),
+            "personal_web": forms.TextInput(
+                attrs={
+                    "class": "form-control form-control-sm",
+                    "placeholder": "Personal link",
+                }
+            ),
+            "avatar": forms.TextInput(
+                attrs={"class": "form-control", "id": "floatingAvatar"}
             ),
         }
