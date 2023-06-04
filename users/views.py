@@ -61,11 +61,12 @@ def profile_view(request, id):
     room_messages = user.message_set.all()
 
     context = {
-        "user": user,
+        "viewed_user": user,
         "rooms": rooms,
         "room_messages": room_messages,
         "fullname": fullname,
     }
+
     return render(request, "users/profile.html", context)
 
 
