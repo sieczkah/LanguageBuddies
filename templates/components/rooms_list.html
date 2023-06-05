@@ -37,7 +37,7 @@
       <hr style="height: 1px ;width: 35%; background-color: var(--bs-primary); border: none;">
       <!-- CARD CONTENT -->
       <div class="row">
-        <div class="col-12 mb-3 text-start">{{ room.description }}</div>
+        <div class="col-12 mb-3 text-start">{{ room.description | truncatechars: 400  }}</div>
         <div class="col-12 d-flex justify-content-between align-items-center">
           <div class="d-flex flex-column">
             <a href="{% url 'room' room.id %}" class="btn btn-primary">Go
