@@ -2,6 +2,7 @@ from uuid import uuid4
 
 from django.contrib.auth.models import User
 from django.db import models
+from django.utils import timezone
 
 
 class Room(models.Model):
@@ -26,6 +27,13 @@ class Message(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
     body = models.TextField()
     sent = models.DateTimeField(auto_now_add=True)
+
+    # To update the "updated" field everytime the message is sent
+    # The save method of models.model is overriden
+    def save(self, *args, **kwargs):
+        self.room.updated = timezone.now()
+        self.room.save()
+        super().save(*args, **kwargs)
 
     class Meta:
         ordering = ["-sent"]
