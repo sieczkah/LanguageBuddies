@@ -37,7 +37,22 @@
       <hr style="height: 1px ;width: 35%; background-color: var(--bs-primary); border: none;">
       <!-- CARD CONTENT -->
       <div class="row">
-        <div class="col-12 mb-3 text-start">{{ room.description | truncatechars:400  }}</div>
+        {% if room.description %}
+        <div class="col-12 mb-3 text-start">
+          <p>
+            <button class="btn btn-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#{{ room.id }}"
+              aria-expanded="false" aria-controls="room-description"
+              style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+              Show description
+            </button>
+          </p>
+          <div class="collapse" id="{{ room.id }}">
+            <div class="card card-body">
+              {{ room.description }}
+            </div>
+          </div>
+        </div>
+        {% endif %}
         <div class="col-12 d-flex justify-content-between align-items-center">
           <div class="d-flex flex-column">
             <a href="{% url 'room' room.id %}" class="btn btn-primary">Go
