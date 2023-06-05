@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.db.models import Q
+from django.db.models import Count, Q
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.views.decorators.debug import sensitive_variables
@@ -26,7 +26,9 @@ def home(request):
             Q(room__language__name__icontains=q) | Q(room__name__icontains=q)
         )
 
-    languages = Language.objects.all()
+    languages = Language.objects.annotate(num_rooms=Count("room")).order_by(
+        "-num_rooms"
+    )
 
     context = {
         "rooms": rooms,
