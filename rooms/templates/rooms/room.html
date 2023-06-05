@@ -3,7 +3,8 @@
 <div class="container py-3">
   <div class="row d-flex">
     <!-- ROOM MEMBERS START -->
-    <div class="d-flex flex-column col-2 m-auto mt-5 rounded-3 glass p-3 overflow-y-auto" style="max-height: 60vh;">
+    <div class="d-none d-lg-flex flex-column col-2 m-auto mt-5 rounded-3 glass p-3 overflow-y-auto"
+      style="max-height: 60vh;">
       <h5>Room members:</h5>
       {% for member in members %}
       <div class="d-flex flex-row gap-1 mb-2">
@@ -18,14 +19,14 @@
     <!-- ROOM MEMBERS END -->
 
     <!-- CHAT SECTION START-->
-    <div class="d-flex flex-column col-9 m-auto mt-2 rounded-3 glass p-3">
+    <div class="d-flex flex-column col-11 col-md-9 m-auto mt-2 rounded-3 glass p-3">
       <!-- CHAT WINDOW -->
       <div class="d-flex flex-column-reverse overflow-y-scroll" style="max-height: 60vh; min-height: 50vh;">
         {% for message in messages %}
         {% if message.user == request.user %}
 
         <!-- MSG FROM LOGGED AUTHOR USER -->
-        <div class="d-flex flex-column col-10 align-self-end px-3 py-1 m-1">
+        <div class="d-flex flex-column col-11 align-self-end px-3 py-1 m-1">
           <div class="col-3 d-flex flex-row align-self-end justify-content-end gap-1" style="transform: rotate(0);">
             <small class="align-self-end text-black">@{{ message.user }}</small>
             <span style="width: 30px; height: 30px;">{{ message.user.profile.avatar|safe }}</span>
@@ -57,7 +58,7 @@
         </div>
         {% else %}
         <!-- MSG FROM OTHER USERS -->
-        <div class="d-flex flex-column col-10 align-self-start px-3 py-1 m-1">
+        <div class="d-flex flex-column col-11 align-self-start px-3 py-1 m-1">
           <div class="col-3 d-flex flex-row align-self-start justify-content-start gap-1" style="transform: rotate(0);">
             <span style="width: 30px; height: 30px;">{{ message.user.profile.avatar|safe }}</span>
             <small class="align-self-start text-black">@{{ message.user }}</small>
