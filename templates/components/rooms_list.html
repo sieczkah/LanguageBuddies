@@ -38,7 +38,7 @@
       <!-- CARD CONTENT -->
       <div class="row">
         {% if room.description %}
-        <div class="col-12 mb-3 text-start">
+        <div class="col-12 mb-3 text-start overflow-y-auto" style="max-height: 30vh;">
           <p>
             <button class="btn btn-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#{{ room.id }}"
               aria-expanded="false" aria-controls="room-description"
