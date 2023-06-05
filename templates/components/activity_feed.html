@@ -18,7 +18,7 @@
         <a href="{% url 'profile' message.user.id %}" class="text-decoration-none link-body-emphasis link-expand">
           @{{ message.user }}</a></small>
     </div>
-    <small class="text-end fw-lighter align-self-end">{{ message.sent | timesince }}</small>
+    <small class="text-end  align-self-end" style="font-size: 0.7rem;">{{ message.sent | timesince }} ago</small>
 
   </div>
 

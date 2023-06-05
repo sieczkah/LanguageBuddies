@@ -12,7 +12,7 @@
           <div class="d-flex flex-row gap-1 align-items-center">
             <h5 class="card-title mb-0">{{ room.name }} </h5>
             {% include 'components/language_badge.html' with language=room.language %}
-            <small class="fw-lighter">Last update {{ room.updated | timesince }}</small>
+            <small class="" style="font-size: 0.8rem ;">Last update {{ room.updated | timesince }}</small>
           </div>
 
         </div>
