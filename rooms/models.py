@@ -8,7 +8,7 @@ from django.utils import timezone
 class Room(models.Model):
     host = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     members = models.ManyToManyField(User, related_name="members", blank=True)
-    language = models.ForeignKey("Language", on_delete=models.DO_NOTHING)
+    language = models.ForeignKey("Language", on_delete=models.DO_NOTHING, null=True)
     name = models.CharField(max_length=400)
     description = models.TextField(blank=True, null=True)
     updated = models.DateTimeField(auto_now=True)
