@@ -22,6 +22,20 @@ https://siehy.pythonanywhere.com/
 
 ## Run Locally
 
+### If you are using docker:
+
+Pull the docker image with example database setup see the users in table below:
+
+    $ docker pull siehy/language-buddies-sieczkah:latest
+
+Run the docker image on port 8000
+
+    $ docker run -p 8000:8000 siehy/language-buddies-sieczkah:latest
+
+- Go to you localhost on your browser http://127.0.0.1:8000/ and try it!
+
+### Github clone
+
 Clone the project
 
 ```bash
@@ -43,9 +57,9 @@ Install project dependencies:
     $ pip install -r requirements.txt
     
     
-Create the .env file.
+- Create the .env file.
 
-You can use .env.dist file that have example data in just rename it to .env
+- You can use .env.dist file that have example data in just rename it to .env
 
  
 Prepare migrations:
@@ -56,6 +70,12 @@ Then simply apply the migrations:
 
     $ python manage.py migrate
     
+You are ready to run the server:
+
+    $ python manage.py runserver
+    
+- Go to you localhost on your browser http://127.0.0.1:8000/ and try it!   
+ 
 #### Optional:
 
 The repo contains JSON fixture file to populate the databse - to fast start the app.
